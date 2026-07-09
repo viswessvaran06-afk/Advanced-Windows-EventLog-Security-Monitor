@@ -16,6 +16,22 @@ with Evtx(log_file) as log:
 
         event_id = root.find(".//ns:EventID", namespace)
 
-        print("Event ID:", event_id.text)
+        provider = root.find(".//ns:Provider", namespace)
+
+        computer = root.find(".//ns:Computer", namespace)
+
+        time_created = root.find(".//ns:TimeCreated", namespace)
+
+        print("=" * 50)
+
+        print("Event ID :", event_id.text)
+
+        print("Provider :", provider.attrib.get("Name"))
+
+        print("Computer :", computer.text)
+
+        print("Time     :", time_created.attrib.get("SystemTime"))
+
+        print("=" * 50)
 
         break
