@@ -1,4 +1,5 @@
 from Evtx.Evtx import Evtx
+from database.insert_event import insert_event
 import xml.etree.ElementTree as ET
 
 log_file = "logs/Security.evtx"
@@ -44,34 +45,13 @@ with Evtx(log_file) as log:
         print("Level :", level.text)
 
         print("=" * 60)
+        insert_event(
+    event_id.text,
+    provider.attrib.get("Name"),
+    computer.text,
+    channel.text,
+    level.text,
+    time_created.attrib.get("SystemTime")
+)
 
         break
-    event_id = root.find(".//ns:EventID", namespace)
-
-provider = root.find(".//ns:Provider", namespace)
-
-computer = root.find(".//ns:Computer", namespace)
-
-time_created = root.find(".//ns:TimeCreated", namespace)
-level = root.find(".//ns:Level", namespace)
-event_data = root.findall(".//ns:EventData/ns:Data", namespace)
-
-channel = root.find(".//ns:Channel", namespace)
-print("Event ID :", event_id.text)
-
-print("Provider :", provider.attrib.get("Name"))
-
-print("Computer :", computer.text)
-
-print("Time :", time_created.attrib.get("SystemTime"))
-print("Channel :", channel.text)
-
-print("Level :", level.text)
-print("\nEvent Data")
-
-for data in event_data:
-    print(
-        data.attrib.get("Name"),
-        ":",
-        data.text
-    )
