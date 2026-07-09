@@ -1,0 +1,17 @@
+Windows Security Event Report
+============================================================
+
+ID: 5379
+Provider: Microsoft-Windows-Security-Auditing
+Computer: Visva
+Channel: Security
+Level: 0
+Time: 2026-06-30 13:31:19.385376+00:00
+------------------------------------------------------------
+ID: 5379
+Provider: Microsoft-Windows-Security-Auditing
+Computer: Visva
+Channel: Security
+Level: 0
+Time: 2026-06-30 13:31:19.385376+00:00
+------------------------------------------------------------
