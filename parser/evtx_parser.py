@@ -54,6 +54,7 @@ computer = root.find(".//ns:Computer", namespace)
 
 time_created = root.find(".//ns:TimeCreated", namespace)
 level = root.find(".//ns:Level", namespace)
+event_data = root.findall(".//ns:EventData/ns:Data", namespace)
 
 channel = root.find(".//ns:Channel", namespace)
 print("Event ID :", event_id.text)
@@ -66,3 +67,11 @@ print("Time :", time_created.attrib.get("SystemTime"))
 print("Channel :", channel.text)
 
 print("Level :", level.text)
+print("\nEvent Data")
+
+for data in event_data:
+    print(
+        data.attrib.get("Name"),
+        ":",
+        data.text
+    )
