@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string
+from flask import Flask, render_template
 import sqlite3
 
 app = Flask(__name__)
@@ -12,47 +12,30 @@ def home():
     cursor.execute("SELECT * FROM security_events")
     rows = cursor.fetchall()
 
+    stats = {}
+
+    cursor.execute("SELECT COUNT(*) FROM security_events")
+    stats["Total Events"] = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM security_events WHERE event_id='4625'")
+    stats["Failed Logins"] = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM security_events WHERE event_id='4720'")
+    stats["New Users"] = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM security_events WHERE event_id='4728'")
+    stats["Admin Group Changes"] = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM security_events WHERE event_id='5379'")
+    stats["Credential Manager"] = cursor.fetchone()[0]
+
     connection.close()
 
-    html = """
-    <html>
-    <head>
-        <title>Security Dashboard</title>
-    </head>
-
-    <body>
-
-    <h1>Windows Security Dashboard</h1>
-
-    <table border="1" cellpadding="8">
-
-    <tr>
-        <th>ID</th>
-        <th>Event ID</th>
-        <th>Provider</th>
-        <th>Computer</th>
-        <th>Channel</th>
-        <th>Level</th>
-        <th>Time</th>
-    </tr>
-
-    {% for row in rows %}
-
-    <tr>
-        {% for col in row %}
-        <td>{{ col }}</td>
-        {% endfor %}
-    </tr>
-
-    {% endfor %}
-
-    </table>
-
-    </body>
-    </html>
-    """
-
-    return render_template_string(html, rows=rows)
+    return render_template(
+        "index.html",
+        rows=rows,
+        stats=stats
+    )
 
 
 if __name__ == "__main__":
