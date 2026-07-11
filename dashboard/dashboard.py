@@ -29,14 +29,18 @@ def home():
     cursor.execute("SELECT COUNT(*) FROM security_events WHERE event_id='5379'")
     stats["Credential Manager"] = cursor.fetchone()[0]
 
+    chart_labels = list(stats.keys())
+    chart_values = list(stats.values())
+
     connection.close()
 
     return render_template(
         "index.html",
         rows=rows,
-        stats=stats
+        stats=stats,
+        chart_labels=chart_labels,
+        chart_values=chart_values
     )
-
 
 if __name__ == "__main__":
     app.run(debug=True)
